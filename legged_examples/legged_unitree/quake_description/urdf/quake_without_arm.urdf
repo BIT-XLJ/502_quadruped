@@ -62,7 +62,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <box size="0.9 0.38 0.18"/>
+        <box size="0.9 0.19 0.05"/>
       </geometry>
     </collision>
     <inertial>
@@ -82,7 +82,7 @@
     <inertial>
       <mass value="0.001"/>
       <origin rpy="0 0 0" xyz="0 0 0"/>
-      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.0001"/>
+      <inertia ixx="0.00000001" ixy="0" ixz="0" iyy="0.00000001" iyz="0" izz="0.00000001"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -112,7 +112,8 @@
     <child link="LF_hip"/>
     <axis xyz="1 0 0"/>
     <dynamics damping="0.01" friction="0.2"/>
-    <limit effort="550" lower="-0.8" upper="0.8" velocity="52.4" value="0.45"/>
+    <limit effort="550" lower="-0.8" upper="0.8" velocity="52.4" />
+    <initial_value value="0.45"/>
   </joint>
 
   <link name="LF_hip">
@@ -132,7 +133,7 @@
     <inertial>
       <origin rpy="0 0 0" xyz="-0.001568 -0.008134 0.000864"/>
       <mass value="1.8188"/>
-      <inertia ixx="0.0047303" ixy="2.3798e-05" ixz="-4.2348e-08" iyy="0.0051123" iyz="-3.807e-06" izz="0.0035171"/>
+      <inertia ixx="0.002903894" ixy="-0.000071850" ixz="-0.000001262" iyy="0.004907517" iyz="-0.00000175" izz="0.005586944"/>
     </inertial>
   </link>
 
@@ -142,7 +143,8 @@
     <child link="LF_thigh"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.01" friction="0.2"/>
-    <limit effort="550" lower="-1.04" upper="4.188" velocity="28.6" value="1.20"/>
+    <limit effort="550" lower="-1.04" upper="4.188" velocity="28.6" />
+    <initial_value value="1.20"/>
   </joint>
 
   <link name="LF_thigh">
@@ -162,7 +164,7 @@
     <inertial>
       <origin rpy="0 0 0" xyz="-0.000482 0.02001 -0.031996"/>
       <mass value="1.7272"/>
-      <inertia ixx="0.010387" ixy="2.7648e-05" ixz="-0.0006887" iyy="0.013004" iyz="0.00021997" izz="0.0029272"/>
+      <inertia ixx="0.0153003681" ixy="0.0000097119" ixz="0.0013269042" iyy="0.0157875183" iyz="0.0000272322" izz="0.0009984897"/>
     </inertial>
   </link>
 
@@ -172,7 +174,8 @@
     <child link="LF_calf"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.01" friction="0.2"/>
-    <limit effort="550" lower="-2.69" upper="0" velocity="28.6" value="-2.69"/>
+    <limit effort="550" lower="-2.69" upper="0" velocity="28.6"/>
+    <initial_value value="-2.69"/>
   </joint>
 
   <link name="LF_calf">
@@ -192,7 +195,7 @@
     <inertial>
       <origin rpy="0 0 0" xyz="-0.002196 -0.000381 -0.12338"/>
       <mass value="0.30254"/>
-      <inertia ixx="0.0031787" ixy="-1.5425e-07" ixz="0.0002511" iyy="0.0032683" iyz="3.2937e-07" izz="0.0001467"/>
+      <inertia ixx="0.006341369" ixy="-0.000000003" ixz="-0.000087951" iyy="0.006355157" iyz="-0.000001336" izz="0.000039188"/>
     </inertial>
   </link>
 
@@ -213,7 +216,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <sphere radius="0.042"/>
+        <sphere radius="0.022"/>
       </geometry>
     </collision>
     <inertial>
@@ -242,7 +245,7 @@
   <gazebo reference="LF_calf">
       <mu1>0.6</mu1>
       <mu2>0.6</mu2>
-      <self_collide>1</self_collide>
+      <self_collide>0</self_collide>
   </gazebo>
   <gazebo reference="LF_FOOT">
       <mu1>0.6</mu1>
@@ -292,7 +295,8 @@
     <child link="LH_hip"/>
     <axis xyz="1 0 0"/>
     <dynamics damping="0.01" friction="0.2"/>
-    <limit effort="550" lower="-0.8" upper="0.8" velocity="52.4" value="0.45"/>
+    <limit effort="550" lower="-0.8" upper="0.8" velocity="52.4"/>
+    <initial_value value="0.45"/>
   </joint>
 
   <link name="LH_hip">
@@ -312,7 +316,7 @@
     <inertial>
       <origin rpy="0 0 0" xyz="0.001568 -0.008134 0.000864"/>
       <mass value="1.8188"/>
-      <inertia ixx="0.0047303" ixy="-2.3798e-05" ixz="4.2348e-08" iyy="0.0051123" iyz="-3.807e-06" izz="0.0035171"/>
+      <inertia ixx="0.002903894" ixy="-0.000071850" ixz="-0.000001262" iyy="0.004907517" iyz="-0.00000175" izz="0.005586944"/>
     </inertial>
   </link>
   <!--joint name="RL_hip_fixed" type="fixed">
@@ -336,7 +340,8 @@
     <child link="LH_thigh"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.01" friction="0.2"/>
-    <limit effort="550" lower="-1.04" upper="4.188" velocity="28.6" value="1.20"/>
+    <limit effort="550" lower="-1.04" upper="4.188" velocity="28.6" />
+    <initial_value value="1.20"/>
   </joint>
 
   <link name="LH_thigh">
@@ -356,7 +361,7 @@
     <inertial>
       <origin rpy="0 0 0" xyz="-0.000482 0.02001 -0.031996"/>
       <mass value="1.7272"/>
-      <inertia ixx="0.010387" ixy="2.7648e-05" ixz="-0.0006887" iyy="0.013004" iyz="0.00021997" izz="0.0029272"/>
+       <inertia ixx="0.0153003681" ixy="0.0000097119" ixz="0.0013269042" iyy="0.0157875183" iyz="0.0000272322" izz="0.0009984897"/>
     </inertial>
   </link>
 
@@ -366,7 +371,8 @@
     <child link="LH_calf"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.01" friction="0.2"/>
-    <limit effort="550" lower="-2.69" upper="0" velocity="28.6" value="-2.69"/>
+    <limit effort="550" lower="-2.69" upper="0" velocity="28.6" />
+    <initial_value value="-2.69"/>
   </joint>
 
   <link name="LH_calf">
@@ -386,7 +392,7 @@
     <inertial>
       <origin rpy="0 0 0" xyz="-0.002196 -0.000381 -0.12338"/>
       <mass value="0.30254"/>
-      <inertia ixx="0.0031787" ixy="-1.5425e-07" ixz="0.0002511" iyy="0.0032683" iyz="3.2937e-07" izz="0.0001467"/>
+      <inertia ixx="0.006341369" ixy="-0.000000003" ixz="-0.000087951" iyy="0.006355157" iyz="-0.000001336" izz="0.000039188"/>
     </inertial>
   </link>
 
@@ -407,7 +413,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <sphere radius="0.042"/>
+        <sphere radius="0.022"/>
       </geometry>
     </collision>
     <inertial>
@@ -435,7 +441,7 @@
   <gazebo reference="LH_calf">
       <mu1>0.6</mu1>
       <mu2>0.6</mu2>
-      <self_collide>1</self_collide>
+      <self_collide>0</self_collide>
   </gazebo>
   <gazebo reference="LH_FOOT">
       <mu1>0.6</mu1>
@@ -485,7 +491,8 @@
     <child link="RF_hip"/>
     <axis xyz="1 0 0"/>
     <dynamics damping="0.01" friction="0.2"/>
-    <limit effort="550" lower="-0.8" upper="0.8" velocity="52.4" value="0.45"/>
+    <limit effort="550" lower="-0.8" upper="0.8" velocity="52.4"/>
+    <initial_value value="0.45"/>
   </joint>
 
   <link name="RF_hip">
@@ -505,7 +512,7 @@
     <inertial>
       <origin rpy="0 0 0" xyz="-0.001568 0.008134 0.000864"/>
       <mass value="1.8188"/>
-      <inertia ixx="0.0047303" ixy="-2.3798e-05" ixz="-4.2348e-08" iyy="0.0051123" iyz="3.807e-06" izz="0.0035171"/>
+      <inertia ixx="0.002903894" ixy="-0.000071850" ixz="-0.000001262" iyy="0.004907517" iyz="-0.00000175" izz="0.005586944"/>
     </inertial>
   </link>
 
@@ -530,7 +537,8 @@
     <child link="RF_thigh"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.01" friction="0.2"/>
-    <limit effort="550" lower="-1.04" upper="4.188" velocity="28.6" value="1.20"/>
+    <limit effort="550" lower="-1.04" upper="4.188" velocity="28.6" />
+    <initial_value value="1.20"/>
   </joint>
 
   <link name="RF_thigh">
@@ -550,7 +558,7 @@
     <inertial>
       <origin rpy="0 0 0" xyz="-0.000482 -0.02001 -0.031996"/>
       <mass value="1.7272"/>
-      <inertia ixx="0.010387" ixy="-2.7648e-05" ixz="-0.0006887" iyy="0.013004" iyz="-0.00021997" izz="0.0029272"/>
+       <inertia ixx="0.0153003681" ixy="0.0000097119" ixz="0.0013269042" iyy="0.0157875183" iyz="0.0000272322" izz="0.0009984897"/>
     </inertial>
   </link>
 
@@ -560,7 +568,8 @@
     <child link="RF_calf"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.01" friction="0.2"/>
-    <limit effort="550" lower="-2.69" upper="0" velocity="28.6" value="-2.69"/>
+    <limit effort="550" lower="-2.69" upper="0" velocity="28.6" />
+    <initial_value value="-2.69"/>
   </joint>
 
   <link name="RF_calf">
@@ -580,7 +589,7 @@
     <inertial>
       <origin rpy="0 0 0" xyz="-0.002196 -0.000381 -0.12338"/>
       <mass value="0.30254"/>
-      <inertia ixx="0.0031787" ixy="-1.5425e-07" ixz="0.0002511" iyy="0.0032683" iyz="3.2937e-07" izz="0.0001467"/>
+      <inertia ixx="0.006341369" ixy="-0.000000003" ixz="-0.000087951" iyy="0.006355157" iyz="-0.000001336" izz="0.000039188"/>
     </inertial>
   </link>
 
@@ -601,7 +610,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <sphere radius="0.042"/>
+        <sphere radius="0.022"/>
       </geometry>
     </collision>
     <inertial>
@@ -630,7 +639,7 @@
   <gazebo reference="RF_calf">
       <mu1>0.6</mu1>
       <mu2>0.6</mu2>
-      <self_collide>1</self_collide>
+      <self_collide>0</self_collide>
   </gazebo>
   <gazebo reference="RF_FOOT">
       <mu1>0.6</mu1>
@@ -680,7 +689,8 @@
     <child link="RH_hip"/>
     <axis xyz="1 0 0"/>
     <dynamics damping="0.01" friction="0.2"/>
-    <limit effort="550" lower="-0.8" upper="0.8" velocity="52.4" value="0.45"/>
+    <limit effort="550" lower="-0.8" upper="0.8" velocity="52.4"/>
+    <initial_value value="0.45"/>
   </joint>
 
   <link name="RH_hip">
@@ -700,7 +710,7 @@
     <inertial>
       <origin rpy="0 0 0" xyz="0.001568 0.008134 0.000864"/>
       <mass value="1.8188"/>
-      <inertia ixx="0.0047303" ixy="2.3798e-05" ixz="4.2348e-08" iyy="0.0051123" iyz="3.807e-06" izz="0.0035171"/>
+      <inertia ixx="0.002903894" ixy="-0.000071850" ixz="-0.000001262" iyy="0.004907517" iyz="-0.00000175" izz="0.005586944"/>
     </inertial>
   </link>
   <!--joint name="RR_hip_fixed" type="fixed">
@@ -724,7 +734,8 @@
     <child link="RH_thigh"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.01" friction="0.2"/>
-    <limit effort="550" lower="-1.04" upper="4.188" velocity="28.6" value="1.20"/>
+    <limit effort="550" lower="-1.04" upper="4.188" velocity="28.6"/>
+    <initial_value value="1.20"/>
   </joint>
 
   <link name="RH_thigh">
@@ -744,7 +755,7 @@
     <inertial>
       <origin rpy="0 0 0" xyz="-0.000482 -0.02001 -0.031996"/>
       <mass value="1.7272"/>
-      <inertia ixx="0.010387" ixy="-2.7648e-05" ixz="-0.0006887" iyy="0.013004" iyz="-0.00021997" izz="0.0029272"/>
+      <inertia ixx="0.0153003681" ixy="0.0000097119" ixz="0.0013269042" iyy="0.0157875183" iyz="0.0000272322" izz="0.0009984897"/>
     </inertial>
   </link>
 
@@ -754,7 +765,8 @@
     <child link="RH_calf"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.01" friction="0.2"/>
-    <limit effort="550" lower="-2.69" upper="0" velocity="28.6" value="-2.69"/>
+    <limit effort="550" lower="-2.69" upper="0" velocity="28.6"/>
+    <initial_value value="-2.69"/>
   </joint>
 
   <link name="RH_calf">
@@ -774,7 +786,7 @@
     <inertial>
       <origin rpy="0 0 0" xyz="-0.002196 -0.000381 -0.12338"/>
       <mass value="0.30254"/>
-      <inertia ixx="0.0031787" ixy="-1.5425e-07" ixz="0.0002511" iyy="0.0032683" iyz="3.2937e-07" izz="0.0001467"/>
+      <inertia ixx="0.006341369" ixy="-0.000000003" ixz="-0.000087951" iyy="0.006355157" iyz="-0.000001336" izz="0.000039188"/>
     </inertial>
   </link>
 
@@ -795,7 +807,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <sphere radius="0.042"/>
+        <sphere radius="0.022"/>
       </geometry>
     </collision>
     <inertial>
@@ -824,7 +836,7 @@
   <gazebo reference="RH_calf">
       <mu1>0.6</mu1>
       <mu2>0.6</mu2>
-      <self_collide>1</self_collide>
+      <self_collide>0</self_collide>
   </gazebo>
   <gazebo reference="RH_FOOT">
       <mu1>0.6</mu1>
