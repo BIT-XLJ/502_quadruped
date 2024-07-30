@@ -1,0 +1,14 @@
+<launch>
+    <arg name="robot_type" default="$(env ROBOT_TYPE)" doc="Robot type: [a1, aliengo, go1, laikago, quake_without_arm]"/>
+    <param name="legged_robot_description" textfile="$(find quake_description)/urdf/quake_without_arm.urdf"/>
+    
+    <rosparam file="$(find legged_gazebo)/config/default.yaml" command="load"/>
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find legged_gazebo)/worlds/empty_world.world"/>
+    </include>
+    <!-- push robot_description to factory and spawn robot in gazebo -->
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" clear_params="true"
+          args="-z 1.2 -param legged_robot_description -urdf -model quake_without_arm" output="screen"/>
+   
+</launch>
