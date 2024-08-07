@@ -160,7 +160,7 @@ void LeggedController::update(const ros::Time& time, const ros::Duration& period
   else
   {
     for (size_t j = 0; j < leggedInterface_->getCentroidalModelInfo().actuatedDofNum; ++j) {
-      hybridJointHandles_[j].setCommand(posDes(j), velDes(j), 0, 3, torque(j));
+      hybridJointHandles_[j].setCommand(posDes(j), velDes(j), kp_big_stance, kd_big, torque(j));
     }
   }
 
@@ -304,14 +304,7 @@ void LeggedController::dynamicParamCallback(legged_controllers::TutorialsConfig&
   kd_position = config.kd_position;
 
   kp_big_stance = config.kp_big_stance;
-  kp_big_swing = config.kp_big_swing;
-
-  kp_small_stance = config.kp_small_stance;
-  kp_small_swing = config.kp_small_swing;
-  kd_small = config.kd_small;
   kd_big = config.kd_big;
-
-  kd_feet = config.kd_feet;
 }
 
 void LeggedController::ResetTargetCallback(const std_msgs::Float32::ConstPtr& msg)
