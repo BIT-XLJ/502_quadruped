@@ -1,6 +1,6 @@
 <launch>
   <!-- Load the URDF into the ROS parameter server -->
-  <param name="robot_description" textfile="$(find quake_description)/urdf/quake_without_arm.urdf" />
+  <param name="robot_description" textfile="/tmp/legged_control/quake_without_arm.urdf" />
 
   <!-- Run a node to publish the joint states -->
   <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />

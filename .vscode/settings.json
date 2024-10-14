@@ -86,5 +86,6 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "bit": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/home/djh/ocs2_quadruped/src/legged_control/legged_examples/legged_unitree/legged_unitree_description"
 }
