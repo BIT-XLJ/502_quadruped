@@ -61,18 +61,44 @@ class TargetTrajectoriesPublisher final {
       const auto trajectories = goalToTargetTrajectories_(cmdGoal, latestObservation_);
       targetTrajectoriesPublisher_->publishTargetTrajectories(trajectories);
     };
-
+    
+    
     // cmd_vel subscriber
     auto cmdVelCallback = [this](const geometry_msgs::Twist::ConstPtr& msg) {
       if (latestObservation_.time == 0.0) {
         return;
       }
+      
+      static vector_t cmdVel_his = vector_t::Zero(4);
 
       vector_t cmdVel = vector_t::Zero(4);
-      cmdVel[0] = msg->linear.x;
-      cmdVel[1] = msg->linear.y;
-      cmdVel[2] = msg->linear.z;
-      cmdVel[3] = msg->angular.z;
+      cmdVel[0] = msg->linear.x * 0.025 + 0.975 * cmdVel_his[0];
+      cmdVel[1] = msg->linear.y * 0.025 + 0.975 * cmdVel_his[1];
+      cmdVel[2] = msg->linear.z * 0.025 + 0.975 * cmdVel_his[2];
+      cmdVel[3] = msg->angular.z * 0.025 + 0.975 * cmdVel_his[3];
+      
+      if(cmdVel[1] > 1.0)
+      {
+        cmdVel[1] = 1.0;
+      }
+
+      if(cmdVel[0] > 3.0)
+      {
+        cmdVel[0] -= 0.2;
+      }
+
+      if(cmdVel[0] > 3.1)
+      {
+        cmdVel[0]  = 3.1;
+      }
+
+      if(cmdVel[3] > 1.5)
+      {
+        cmdVel[3] = 1.5;
+      }
+      else if(cmdVel[3] < -1.5) cmdVel[3] = -1.5;
+      
+      cmdVel_his = cmdVel;
 
       const auto trajectories = cmdVelToTargetTrajectories_(cmdVel, latestObservation_);
       targetTrajectoriesPublisher_->publishTargetTrajectories(trajectories);
@@ -90,7 +116,7 @@ class TargetTrajectoriesPublisher final {
   ::ros::Subscriber observationSub_, goalSub_, cmdVelSub_;
   tf2_ros::Buffer buffer_;
   tf2_ros::TransformListener tf2_;
-
+  
   mutable std::mutex latestObservationMutex_;
   SystemObservation latestObservation_;
 };

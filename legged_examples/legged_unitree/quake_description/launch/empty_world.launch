@@ -15,6 +15,6 @@
     </include>
     <!-- push robot_description to factory and spawn robot in gazebo -->
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" clear_params="true"
-          args="-z 0.5 -param legged_robot_description -urdf -model quake_without_arm" output="screen"/>
+          args="-z 0.8 -param legged_robot_description -urdf -model quake_without_arm" output="screen"/>
    
 </launch>

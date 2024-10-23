@@ -38,8 +38,8 @@
     <xacro:property name="thigh_visual_offset" value="0.06"/>
 
     <!-- joint limits -->
-    <xacro:property name="damping" value="0"/>
-    <xacro:property name="friction" value="0"/>
+    <xacro:property name="damping" value="0.2"/>
+    <xacro:property name="friction" value="0.1"/>
     <xacro:property name="hip_position_max" value="0.1"/>
     <xacro:property name="hip_position_min" value="-0.1"/>
     <xacro:property name="hip_velocity_max" value="52.4"/>
