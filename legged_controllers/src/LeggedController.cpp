@@ -74,7 +74,9 @@ bool LeggedController::init(hardware_interface::RobotHW* robot_hw, ros::NodeHand
   // Safety Checker
   safetyChecker_ = std::make_shared<SafetyChecker>(leggedInterface_->getCentroidalModelInfo());
   
+  PreJointPos_.resize(12);
   defalutJointPos_.resize(12);
+  zeroJointPos_.resize(12);
 
   loadData::loadEigenMatrix(referenceFile, "defaultJointState", defalutJointPos_);
 
@@ -116,6 +118,11 @@ void LeggedController::starting(const ros::Time& time) {
   subLoadcontroller_ = ros::NodeHandle().subscribe<std_msgs::Float32>("/load_controller", 1, &LeggedController::loadControllerCallback, this);
   subResetTarget_ = ros::NodeHandle().subscribe<std_msgs::Float32>("/reset_estimation", 1,
                                                                   &LeggedController::ResetTargetCallback, this);
+  subUpDown_ = ros::NodeHandle().subscribe<std_msgs::Bool>("/UpDown",1,&LeggedController::UpDownCallback,this);    
+  subNonUpDown_ = ros::NodeHandle().subscribe<std_msgs::Bool>("/ExpUpDown",1,&LeggedController::NonUpDownCallback,this);   
+
+  velocity_publisher = ros::NodeHandle().advertise<geometry_msgs::Twist>("/cmd_vel", 10);
+
 }
 
 void LeggedController::update(const ros::Time& time, const ros::Duration& period) {
@@ -159,8 +166,33 @@ void LeggedController::update(const ros::Time& time, const ros::Duration& period
   }
   else
   {
-    for (size_t j = 0; j < leggedInterface_->getCentroidalModelInfo().actuatedDofNum; ++j) {
-      hybridJointHandles_[j].setCommand(posDes(j), velDes(j), kp_big_stance, kd_big, torque(j));
+    if(up_flag)
+    {
+      geometry_msgs::Twist vel_msg;
+      vel_msg.linear.x = 0.01;  // 设置x轴线速度为0.01 m/s
+      vel_msg.linear.y = 0.0;
+      vel_msg.linear.z = 0.0;
+      vel_msg.angular.x = 0.0;
+      vel_msg.angular.y = 0.0;
+      vel_msg.angular.z = 0.0;
+      velocity_publisher.publish(vel_msg);
+
+      for (size_t j = 0; j < leggedInterface_->getCentroidalModelInfo().actuatedDofNum; ++j) {
+        hybridJointHandles_[j].setCommand(posDes(j), velDes(j), kp_big_stance, kd_big, torque(j));
+      }
+    }
+    else if(down_flag)
+    {
+      for (size_t j = 0; j < leggedInterface_->getCentroidalModelInfo().actuatedDofNum; ++j) {
+        hybridJointHandles_[j].setCommand(PreJointPos_(j), 0, 60, 15, 0);
+        PreJointPos_(j) = hybridJointHandles_[j].getPosition();
+      }
+    }
+    else
+    {
+      for (size_t j = 0; j < leggedInterface_->getCentroidalModelInfo().actuatedDofNum; ++j) {
+        hybridJointHandles_[j].setCommand(posDes(j), velDes(j), kp_big_stance, kd_big, torque(j));
+      }
     }
   }
 
@@ -297,6 +329,29 @@ void LeggedController::loadControllerCallback(const std_msgs::Float32::ConstPtr&
   // mpcRunning_ = true;
   ROS_INFO("Successfully load the controller");
 }
+
+void LeggedController::UpDownCallback(const std_msgs::Bool::ConstPtr& msg)
+{
+  if(msg->data)  //stance
+  {
+     up_flag = true;
+     down_flag = false;
+     ROS_INFO("Set stance mode");
+  }
+  else{          //down
+     down_flag = true;
+     up_flag = false;
+     ROS_INFO("Set down mode");
+  }
+}
+
+void LeggedController::NonUpDownCallback(const std_msgs::Bool::ConstPtr& msg)
+{
+  ROS_INFO("gait mode switched");
+  up_flag = false;
+  down_flag = false;
+}
+
 
 void LeggedController::dynamicParamCallback(legged_controllers::TutorialsConfig& config, uint32_t level)
 {

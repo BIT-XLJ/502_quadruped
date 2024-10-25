@@ -16,12 +16,14 @@
 #include <legged_estimation/StateEstimateBase.h>
 #include <legged_interface/LeggedInterface.h>
 #include <legged_wbc/WbcBase.h>
-
+#include <ros/ros.h>
+#include <geometry_msgs/Twist.h>
 #include "legged_controllers/SafetyChecker.h"
 #include "legged_controllers/visualization/LeggedSelfCollisionVisualization.h"
 #include "std_msgs/Float64MultiArray.h"
 #include <atomic>
 #include "std_msgs/Float32.h"
+#include "std_msgs/Bool.h"
 #include <dynamic_reconfigure/server.h>
 #include "legged_controllers/TutorialsConfig.h"
 
@@ -50,7 +52,15 @@ class LeggedController : public controller_interface::MultiInterfaceController<H
   
   void ResetTargetCallback(const std_msgs::Float32::ConstPtr& msg);
   void loadControllerCallback(const std_msgs::Float32::ConstPtr& msg);
+  void UpDownCallback(const std_msgs::Bool::ConstPtr& msg);
+  void NonUpDownCallback(const std_msgs::Bool::ConstPtr& msg);
   ros::Subscriber subLoadcontroller_;
+  ros::Subscriber subUpDown_;
+  ros::Subscriber subNonUpDown_;
+  ros::Publisher velocity_publisher;
+  bool up_flag = false;
+  bool down_flag = false;
+  bool gait_switch = false;
   // Interface
   std::shared_ptr<LeggedInterface> leggedInterface_;
   std::shared_ptr<PinocchioEndEffectorKinematics> eeKinematicsPtr_;
@@ -85,6 +95,8 @@ class LeggedController : public controller_interface::MultiInterfaceController<H
   benchmark::RepeatedTimer mpcTimer_;
   benchmark::RepeatedTimer wbcTimer_;
   vector_t defalutJointPos_;
+  vector_t zeroJointPos_;
+  vector_t PreJointPos_;
   void dynamicParamCallback(legged_controllers::TutorialsConfig& config, uint32_t level);
   std::atomic<scalar_t> kp_position{ 0 };
   std::atomic<scalar_t> kd_position{ 0 };
