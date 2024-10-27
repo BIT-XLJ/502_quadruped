@@ -121,7 +121,7 @@ void LeggedController::starting(const ros::Time& time) {
   subUpDown_ = ros::NodeHandle().subscribe<std_msgs::Bool>("/UpDown",1,&LeggedController::UpDownCallback,this);    
   subNonUpDown_ = ros::NodeHandle().subscribe<std_msgs::Bool>("/ExpUpDown",1,&LeggedController::NonUpDownCallback,this);   
 
-  velocity_publisher = ros::NodeHandle().advertise<geometry_msgs::Twist>("/cmd_vel", 10);
+  velocity_publisher = ros::NodeHandle().advertise<geometry_msgs::Twist>("/cmd_vel", 1);
 
 }
 
@@ -168,14 +168,14 @@ void LeggedController::update(const ros::Time& time, const ros::Duration& period
   {
     if(up_flag)
     {
-      geometry_msgs::Twist vel_msg;
-      vel_msg.linear.x = 0.01;  // 设置x轴线速度为0.01 m/s
-      vel_msg.linear.y = 0.0;
-      vel_msg.linear.z = 0.0;
-      vel_msg.angular.x = 0.0;
-      vel_msg.angular.y = 0.0;
-      vel_msg.angular.z = 0.0;
-      velocity_publisher.publish(vel_msg);
+      // geometry_msgs::Twist vel_msg;
+      // vel_msg.linear.x = 0.01;  // 设置x轴线速度为0.01 m/s
+      // vel_msg.linear.y = 0.0;
+      // vel_msg.linear.z = 0.0;
+      // vel_msg.angular.x = 0.0;
+      // vel_msg.angular.y = 0.0;
+      // vel_msg.angular.z = 0.0;
+      // velocity_publisher.publish(vel_msg);
 
       for (size_t j = 0; j < leggedInterface_->getCentroidalModelInfo().actuatedDofNum; ++j) {
         hybridJointHandles_[j].setCommand(posDes(j), velDes(j), kp_big_stance, kd_big, torque(j));
@@ -184,7 +184,7 @@ void LeggedController::update(const ros::Time& time, const ros::Duration& period
     else if(down_flag)
     {
       for (size_t j = 0; j < leggedInterface_->getCentroidalModelInfo().actuatedDofNum; ++j) {
-        hybridJointHandles_[j].setCommand(PreJointPos_(j), 0, 60, 15, 0);
+        hybridJointHandles_[j].setCommand(PreJointPos_(j), 0, 120, 15, 0);
         PreJointPos_(j) = hybridJointHandles_[j].getPosition();
       }
     }
@@ -328,6 +328,14 @@ void LeggedController::loadControllerCallback(const std_msgs::Float32::ConstPtr&
   loadControllerFlag_ = true;
   // mpcRunning_ = true;
   ROS_INFO("Successfully load the controller");
+  geometry_msgs::Twist vel_msg;
+  vel_msg.linear.x = 0.01;  // 设置x轴线速度为0.01 m/s
+  vel_msg.linear.y = 0.0;
+  vel_msg.linear.z = 0.0;
+  vel_msg.angular.x = 0.0;
+  vel_msg.angular.y = 0.0;
+  vel_msg.angular.z = 0.0;
+  velocity_publisher.publish(vel_msg);
 }
 
 void LeggedController::UpDownCallback(const std_msgs::Bool::ConstPtr& msg)
