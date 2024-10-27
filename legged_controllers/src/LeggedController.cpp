@@ -168,15 +168,6 @@ void LeggedController::update(const ros::Time& time, const ros::Duration& period
   {
     if(up_flag)
     {
-      // geometry_msgs::Twist vel_msg;
-      // vel_msg.linear.x = 0.01;  // 设置x轴线速度为0.01 m/s
-      // vel_msg.linear.y = 0.0;
-      // vel_msg.linear.z = 0.0;
-      // vel_msg.angular.x = 0.0;
-      // vel_msg.angular.y = 0.0;
-      // vel_msg.angular.z = 0.0;
-      // velocity_publisher.publish(vel_msg);
-
       for (size_t j = 0; j < leggedInterface_->getCentroidalModelInfo().actuatedDofNum; ++j) {
         hybridJointHandles_[j].setCommand(posDes(j), velDes(j), kp_big_stance, kd_big, torque(j));
       }
