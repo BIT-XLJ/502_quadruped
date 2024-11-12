@@ -36,7 +36,7 @@ its dependencies following the step below.
 Build the source code of `legged_control` by:
 
 ```
-catkin build legged_controllers legged_unitree_description
+catkin build legged_controllers quake_description
 ```
 
 Build the simulation
@@ -73,3 +73,4 @@ catkin build legged_gazebo
    enter "list" in the terminal, then enter "trot"
 6. Open another terminal, then enter **rqt**
 7. Find the Robot Steering plugin and control the velocity of the robot in simulaiton. Note the topic name is **`/cmd_vel`**
+8. You can enter "down" and "stance" in the terminal of `load_controller.launch` to switch the control mode of the dog

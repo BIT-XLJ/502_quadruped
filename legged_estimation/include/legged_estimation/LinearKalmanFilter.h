@@ -47,9 +47,9 @@ class KalmanFilterEstimate : public StateEstimateBase {
 
  private:
   size_t numContacts_, dimContacts_, numState_, numObserve_;
-
+  scalar_t z_position;
   matrix_t a_, b_, c_, q_, p_, r_;
-  vector_t xHat_, ps_, vs_;
+  vector_t xHat_, ps_, vs_,x_fake;
 
   // Topic
   ros::Subscriber sub_;

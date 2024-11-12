@@ -22,6 +22,8 @@ KalmanFilterEstimate::KalmanFilterEstimate(PinocchioInterface pinocchioInterface
       tfListener_(tfBuffer_),
       topicUpdated_(false) {
   xHat_.setZero(numState_);
+  x_fake.setZero(numState_);
+  x_fake.segment<3>(0)(2) = 0.1;
   ps_.setZero(dimContacts_);
   vs_.setZero(dimContacts_);
   a_.setIdentity(numState_, numState_);
@@ -119,6 +121,8 @@ vector_t KalmanFilterEstimate::update(const ros::Time& time, const ros::Duration
   vector_t y(numObserve_);
   y << ps_, vs_, feetHeights_;
   xHat_ = a_ * xHat_ + b_ * accel;
+  x_fake = a_ * x_fake + b_ * accel;
+  z_position = x_fake.segment<3>(0)(2);
   matrix_t at = a_.transpose();
   matrix_t pm = a_ * p_ * at + q;
   matrix_t cT = c_.transpose();
@@ -145,8 +149,9 @@ vector_t KalmanFilterEstimate::update(const ros::Time& time, const ros::Duration
     updateFromTopic();
     topicUpdated_ = false;
   }
-
+  
   updateLinear(xHat_.segment<3>(0), xHat_.segment<3>(3));
+  
 
   auto odom = getOdomMsg();
   odom.header.stamp = time;
@@ -261,6 +266,7 @@ nav_msgs::Odometry KalmanFilterEstimate::getOdomMsg() {
   odom.pose.pose.position.x = xHat_.segment<3>(0)(0);
   odom.pose.pose.position.y = xHat_.segment<3>(0)(1);
   odom.pose.pose.position.z = xHat_.segment<3>(0)(2);
+  // odom.pose.pose.position.z = z_position;
   odom.pose.pose.orientation.x = quat_.x();
   odom.pose.pose.orientation.y = quat_.y();
   odom.pose.pose.orientation.z = quat_.z();
